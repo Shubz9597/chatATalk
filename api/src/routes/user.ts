@@ -9,4 +9,5 @@ export const userHandlerRouter = Router();
 //Needed to create a user
 //Remove a user
 //Update the details of the user
-userHandlerRouter.get('/:email', userController.getUserData);
+userHandlerRouter.post('/', userController.checkProfile);
+userHandlerRouter.get('/', userController.getUserData);

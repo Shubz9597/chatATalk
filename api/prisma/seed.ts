@@ -6,16 +6,14 @@ const prisma = new PrismaClient();
     try {
         //Clear all of the user data
         await prisma.user.deleteMany();
-         await prisma.user.createMany({
+        await prisma.user.createMany({
             data: [
                 {
-                    firstName: 'Test',
-                    lastName: 'last',
+                    name: 'Test First',
                     email: 'abc@xyz.com',
                 },
                 {
-                    firstName: 'Test2',
-                    lastName: 'last2',
+                    name: 'Test Last',
                     email: 'bcd@xyz.com',
                 },
             ]
