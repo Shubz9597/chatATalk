@@ -1,7 +1,6 @@
 import NextAuth, { Account, NextAuthOptions } from 'next-auth';
 import GoogleProvider, {GoogleProfile} from 'next-auth/providers/google'
 import {createOrUpdateuser} from '@/app/lib/userRoutes'
-import FacebookProvider, { FacebookProfile } from 'next-auth/providers/facebook'
 import GithubProvider from 'next-auth/providers/github'
 
 
@@ -55,7 +54,14 @@ export const nextAuthOptions: NextAuthOptions = {
                 throw new Error('There is some problem with the server')
             }
             
-        },  
+        },
+        async jwt({token, account}) {
+            if(account) {
+                token.accessToken = account.access_token
+            }
+
+            return token;
+        },
     },
 
     pages: {

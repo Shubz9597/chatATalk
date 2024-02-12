@@ -4,43 +4,46 @@ import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
 import GoogleProvider from '@/app/components/ProviderSigninButtons/GoogleProvider';
 import GithubProvider from '@/app/components/ProviderSigninButtons/GithubProvider';
+import { redirect } from 'next/navigation';
+import Logo from '@/public/svg/logo.svg';
 
 
-const session = await getServerSession(nextAuthOptions);
+const Login = async () => {
+  const session = await getServerSession(nextAuthOptions);
 
-console.dir(`session is this ${session}`, {depth: null})
-const providers = await getProviders();
+  const providers = await getProviders();
 
-// if(session !== null) {
-//   try{
-//     redirect('http://localhost:3000/dashboard');
-//   } catch(err) {
-//     console.error(err)
-//   }
-// }
+  if(session !== null) {
+    redirect('/dashboard')
+  }
 
-console.log(providers, {depth: null})
-
-const Login = () => {
   return (
-    <main className='flex flex-row min-h-screen w-screen'>
-      <section className='bg-[#7974c2] w-3/5 flex flex-col shadow-md'>
-        <h2 className='text-white font-bold justify-center'>Chat A Talk</h2>
-      </section>
-      <section className='bg-white w-2/5'>
-        <div className='flex flex-col justify-center h-full px-60 py-36'>
-          <div className='border-2 border-gray-400 shadow-lg rounded-xl flex-col space-y-12 text-center py-20'>
-            <div className=''>
-              <h2 className='font-extrabold tracking-wide uppercase text-black text-3xl'>Login / Signup</h2>
-            </div>
-            <div className='flex flex-col justify-center text-center px-12 space-y-2'>
-              <GoogleProvider  {...providers!['google']}/>
-              <GithubProvider {...providers!['github']} />
-            </div>
+    <div className='bg-green-primary dark:bg-green-primary-dark min-h-screen min-w-full'>
+      <div className='flex flex-col lg:flex-row h-full'>
+        <div className='p-6 lg:p-12 flex justify-center lg:justify-normal lg:w-1/4'>
+          <div className='my-1 mr-2 lg:my-1.5'>
+            <Logo className='h-7 w-7 fill-white'/>
           </div>
+          <h2 className='text-white dark:text-dark-text font-medium pt-1.5 text-xl lg:text-xl '>Chat A Talk</h2>
         </div>
-      </section>
-    </main>
+
+        <div className='h-[calc(100vh-48px)] justify-center rounded-2xl shadow-md m-6 bg-white dark:bg-dark flex p-4 lg:w-3/4'>
+          <div className='flex flex-col text-center justify-center'>
+          <h2 className='font-medium text-black dark:text-darkText leading-3 text-2xl tracking-wider py-1 mb-4'>
+            Welcome Back !
+          </h2>
+          <span className='text-black dark:text-darkText text-'>
+            Sign Up / Login into the Application
+          </span>
+          <div className='mt-8 flex-col lg:flex lg:flex-row lg:space-x-5 space-y-4 lg:space-y-0 w-full'>
+          <GoogleProvider {...providers!['google']}/>
+          <GithubProvider {...providers!['github']}/>
+          </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   )
 }
 
